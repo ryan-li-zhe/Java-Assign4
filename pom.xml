@@ -8,7 +8,7 @@
   <artifactId>rest-employeeSystem</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
-  <name>04012345_Assignment4_YourName</name>
+  <name>040913212_Assignment4_ZheLi</name>
   <description>Assignment 4 REST Employee System</description>
 
   <!-- why is everything a property? Because hard-coded values become part 
