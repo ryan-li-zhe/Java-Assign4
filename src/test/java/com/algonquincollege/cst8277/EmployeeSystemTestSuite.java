@@ -10,7 +10,7 @@
 package com.algonquincollege.cst8277;
 
 import static com.algonquincollege.cst8277.utils.MyConstants.APPLICATION_API_VERSION;
-import static com.algonquincollege.cst8277.utils.MyConstants.APPLICATION_CONTEXT_ROOT;
+// import static com.algonquincollege.cst8277.utils.MyConstants.APPLICATION_CONTEXT_ROOT;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -34,10 +34,11 @@ import org.slf4j.LoggerFactory;
 public class EmployeeSystemTestSuite {
     private static final Class<?> _thisClaz = MethodHandles.lookup().lookupClass();
     private static final Logger logger = LoggerFactory.getLogger(_thisClaz);
-    
+
+    static final String APPLICATION_CONTEXT_ROOT = "rest-employeeSystem";
     static final String HTTP_SCHEMA = "http";
     static final String HOST = "localhost";
-    static final int PORT = 8080; //TODO - use your actual Payara port number
+    static final int PORT = 9090; //TODO - use your actual Payara port number
     
     static final String SOME_RESOURCE =
         //some JAX-RS resource the 'admin' user has security privileges to invokd

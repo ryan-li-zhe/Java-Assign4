@@ -17,6 +17,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.security.enterprise.identitystore.Pbkdf2PasswordHash;
 
 import com.algonquincollege.cst8277.models.SecurityRole;
@@ -32,9 +33,16 @@ public class CustomIdentityStoreJPAHelper {
     protected Pbkdf2PasswordHash pbAndjPasswordHash;
 
     public SecurityUser findUserByName(String username) {
-        SecurityUser user = null;
-        //TODO
-        return user;
+        SecurityUser securityUser = null;
+        try {
+            TypedQuery<SecurityUser> query = em.createQuery("select su from SecurityUser su where su.username = :param1",
+                SecurityUser.class).setParameter("param1", username);
+            securityUser = query.getSingleResult();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return securityUser;
     }
 
     public Set<String> findRoleNamesForUser(String username) {

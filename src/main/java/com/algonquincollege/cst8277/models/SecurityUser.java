@@ -10,14 +10,26 @@ import java.io.Serializable;
 import java.security.Principal;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 /**
  * User class used for (JSR-375) Java EE Security authorization/authentication
  */
-
+@Entity
+@Table(name = "SECURITY_USER")
 public class SecurityUser implements Serializable, Principal {
     /** explicit set serialVersionUID */
     private static final long serialVersionUID = 1L;
-
     protected int id;
     protected String username;
     protected String pwHash;
@@ -28,9 +40,13 @@ public class SecurityUser implements Serializable, Principal {
         super();
     }
 
+    @Column(name = "USER_ID")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -38,6 +54,7 @@ public class SecurityUser implements Serializable, Principal {
     public String getUsername() {
         return username;
     }
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -45,17 +62,25 @@ public class SecurityUser implements Serializable, Principal {
     public String getPwHash() {
         return pwHash;
     }
+
     public void setPwHash(String pwHash) {
         this.pwHash = pwHash;
     }
 
+    @ManyToMany(targetEntity = SecurityRole.class, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "SECURITY_USER_SECURITY_ROLE",
+        joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID"),
+        inverseJoinColumns = @JoinColumn(name = "ROLE_ID", referencedColumnName = "ROLE_ID"))
     public Set<SecurityRole> getRoles() {
         return roles;
     }
+
     public void setRoles(Set<SecurityRole> roles) {
         this.roles = roles;
     }
 
+    @OneToOne
+    @JoinColumn(name="EMP_ID")
     public EmployeePojo getEmployee() {
         return employee;
     }
@@ -64,7 +89,7 @@ public class SecurityUser implements Serializable, Principal {
         this.employee = employee;
     }
 
-    //Principal
+    // Principal
     @Override
     public String getName() {
         return getUsername();
@@ -95,5 +120,4 @@ public class SecurityUser implements Serializable, Principal {
         }
         return true;
     }
-
 }

@@ -9,14 +9,22 @@ package com.algonquincollege.cst8277.models;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
 /**
  * Role class used for (JSR-375) Java EE Security authorization/authentication
  */
-
+@Entity
+@Table(name = "SECURITY_ROLE")
 public class SecurityRole implements Serializable {
     /** explicit set serialVersionUID */
     private static final long serialVersionUID = 1L;
-
     protected int id;
     protected String roleName;
     protected Set<SecurityUser> users;
@@ -25,9 +33,13 @@ public class SecurityRole implements Serializable {
         super();
     }
 
+    @Column(name = "ROLE_ID")
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -35,16 +47,20 @@ public class SecurityRole implements Serializable {
     public String getRoleName() {
         return roleName;
     }
+
     public void setRoleName(String roleName) {
         this.roleName = roleName;
     }
 
+    @ManyToMany(mappedBy = "roles")
     public Set<SecurityUser> getUsers() {
         return users;
     }
+
     public void setUsers(Set<SecurityUser> users) {
         this.users = users;
     }
+
     public void addUserToRole(SecurityUser user) {
         getUsers().add(user);
     }
