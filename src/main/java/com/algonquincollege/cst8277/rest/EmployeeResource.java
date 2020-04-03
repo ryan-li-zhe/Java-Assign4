@@ -27,13 +27,11 @@ import com.algonquincollege.cst8277.models.SecurityUser;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class EmployeeResource {
-    
     @EJB
     protected EmployeeBean eBean;
-    
     @Inject
     protected SecurityContext sc;
-    
+
     @GET
     @RolesAllowed(ADMIN_ROLE)
     public Response getAllEmployees() {
@@ -44,7 +42,7 @@ public class EmployeeResource {
     @GET
     @Path("{userId}")
     public Response getByUserId(@PathParam("userId") int userId) {
-        Response response = null;
+        // Response response = null;
         WrappingCallerPrincipal wCallerPrincipal = (WrappingCallerPrincipal)sc.getCallerPrincipal();
         SecurityUser sUser = (SecurityUser)wCallerPrincipal.getWrapped();
         EmployeePojo e = sUser.getEmployee();
@@ -52,6 +50,6 @@ public class EmployeeResource {
             throw new ForbiddenException("User trying to access resource it does not own (wrong userid)");
         }
         // TODO
-        return response;
+        return Response.ok(e).build();
     }
 }
