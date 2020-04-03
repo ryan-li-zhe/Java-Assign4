@@ -11,6 +11,7 @@ import static java.util.Collections.emptySet;
 
 import java.util.Set;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Singleton;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -18,25 +19,34 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.security.enterprise.SecurityContext;
 import javax.security.enterprise.identitystore.Pbkdf2PasswordHash;
+import javax.ws.rs.ForbiddenException;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Response;
 
+import org.glassfish.soteria.WrappingCallerPrincipal;
+
+import com.algonquincollege.cst8277.models.EmployeePojo;
 import com.algonquincollege.cst8277.models.SecurityRole;
 import com.algonquincollege.cst8277.models.SecurityUser;
 
 @Singleton
 public class CustomIdentityStoreJPAHelper {
-
-    @PersistenceContext(name=PU_NAME)
+    @PersistenceContext(name = PU_NAME)
     protected EntityManager em;
-
     @Inject
     protected Pbkdf2PasswordHash pbAndjPasswordHash;
+    
 
     public SecurityUser findUserByName(String username) {
         SecurityUser securityUser = null;
         try {
-            TypedQuery<SecurityUser> query = em.createQuery("select su from SecurityUser su where su.username = :param1",
-                SecurityUser.class).setParameter("param1", username);
+            TypedQuery<SecurityUser> query = em
+                .createQuery("select su from SecurityUser su where su.username = :param1", SecurityUser.class)
+                .setParameter("param1", username);
             securityUser = query.getSingleResult();
         }
         catch (Exception e) {
@@ -47,7 +57,7 @@ public class CustomIdentityStoreJPAHelper {
 
     public Set<String> findRoleNamesForUser(String username) {
         Set<String> rolenames = emptySet();
-        //TODO
+        // TODO
         return rolenames;
     }
 

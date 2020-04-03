@@ -37,6 +37,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 /**
  * The Employee class demonstrates several JPA features:
  * <ul>
@@ -164,6 +166,7 @@ public class EmployeePojo extends PojoBase implements Serializable {
     /**
      * @return the phones
      */
+    @JsonManagedReference
     @OneToMany(mappedBy = "owningEmployee", cascade = CascadeType.ALL)
     public List<PhonePojo> getPhones() {
         return phones;

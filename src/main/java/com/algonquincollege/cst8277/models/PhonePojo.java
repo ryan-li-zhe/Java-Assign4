@@ -16,6 +16,8 @@
  */
 package com.algonquincollege.cst8277.models;
 
+import java.io.Serializable;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -27,17 +29,32 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 /**
  * Phone class
  * 
  */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "phoneType")
+@JsonSubTypes({
+    @Type(value = HomePhone.class, name = "H"),
+    @Type(value = MobilePhone.class, name = "M"),
+    @Type(value = WorkPhone.class, name = "W")})
 @MappedSuperclass
 @Entity(name = "Phone")
 @Table(name = "PHONE")
 @AttributeOverride(name = "id", column = @Column(name = "PHONE_ID"))
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "PHONE_TYPE", length = 1)
-public abstract class PhonePojo extends PojoBase {
+public abstract class PhonePojo extends PojoBase implements Serializable {
+    /** explicit set serialVersionUID */
+    private static final long serialVersionUID = 1L;
     protected String areaCode;
     protected String phoneNumber;
     protected EmployeePojo owningEmployee;
@@ -57,7 +74,8 @@ public abstract class PhonePojo extends PojoBase {
     }
 
     /**
-     * @param areaCode the areaCode to set
+     * @param areaCode
+     *            the areaCode to set
      */
     public void setAreaCode(String areaCode) {
         this.areaCode = areaCode;
@@ -72,7 +90,8 @@ public abstract class PhonePojo extends PojoBase {
     }
 
     /**
-     * @param phoneNumber the phoneNumber to set
+     * @param phoneNumber
+     *            the phoneNumber to set
      */
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
@@ -87,7 +106,8 @@ public abstract class PhonePojo extends PojoBase {
     }
 
     /**
-     * @param phoneType the phoneType to set
+     * @param phoneType
+     *            the phoneType to set
      */
     public void setPhoneType(String phoneType) {
         this.phoneType = phoneType;
@@ -96,6 +116,7 @@ public abstract class PhonePojo extends PojoBase {
     /**
      * @return the owningEmployee
      */
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "OWNING_EMP_ID") // Db details: FK column
     public EmployeePojo getOwningEmployee() {
@@ -103,10 +124,10 @@ public abstract class PhonePojo extends PojoBase {
     }
 
     /**
-     * @param owningEmployee the owningEmployee to set
+     * @param owningEmployee
+     *            the owningEmployee to set
      */
     public void setOwningEmployee(EmployeePojo owningEmployee) {
         this.owningEmployee = owningEmployee;
     }
-
 }
