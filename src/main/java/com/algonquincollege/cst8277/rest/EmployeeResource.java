@@ -42,14 +42,12 @@ public class EmployeeResource {
     @GET
     @Path("{userId}")
     public Response getByUserId(@PathParam("userId") int userId) {
-        // Response response = null;
         WrappingCallerPrincipal wCallerPrincipal = (WrappingCallerPrincipal)sc.getCallerPrincipal();
         SecurityUser sUser = (SecurityUser)wCallerPrincipal.getWrapped();
         EmployeePojo e = sUser.getEmployee();
         if (e.getId() != userId) {
             throw new ForbiddenException("User trying to access resource it does not own (wrong userid)");
         }
-        // TODO
         return Response.ok(e).build();
     }
 }

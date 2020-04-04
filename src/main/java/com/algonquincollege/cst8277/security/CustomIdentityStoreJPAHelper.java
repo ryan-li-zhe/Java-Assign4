@@ -7,11 +7,11 @@
 package com.algonquincollege.cst8277.security;
 
 import static com.algonquincollege.cst8277.utils.MyConstants.PU_NAME;
-import static java.util.Collections.emptySet;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-import javax.annotation.security.RolesAllowed;
 import javax.ejb.Singleton;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -19,17 +19,8 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.security.enterprise.SecurityContext;
 import javax.security.enterprise.identitystore.Pbkdf2PasswordHash;
-import javax.ws.rs.ForbiddenException;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.core.Response;
 
-import org.glassfish.soteria.WrappingCallerPrincipal;
-
-import com.algonquincollege.cst8277.models.EmployeePojo;
 import com.algonquincollege.cst8277.models.SecurityRole;
 import com.algonquincollege.cst8277.models.SecurityUser;
 
@@ -56,8 +47,20 @@ public class CustomIdentityStoreJPAHelper {
     }
 
     public Set<String> findRoleNamesForUser(String username) {
-        Set<String> rolenames = emptySet();
-        // TODO
+        Set<String> rolenames = new HashSet<>();
+        try {
+            List<SecurityRole> roleList = em.createQuery(
+                "SELECT sr FROM SecurityUser su join su.roles sr WHERE su.username = :param1", SecurityRole.class)
+                .setParameter("param1", username)
+                .getResultList();
+            for(SecurityRole role: roleList) {
+                rolenames.add(role.getRoleName());
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
         return rolenames;
     }
 
