@@ -3,6 +3,9 @@
  * Course materials (20W) CST 8277
  * @author Mike Norman
  * (Modified) @date 2020 02
+ * 
+ * @Students: Zhe Li, Kevin, Kevin Nghiem & Yan Qu
+ * @Group: A4 30
  *
  * Copyright (c) 1998, 2009 Oracle. All rights reserved.
  * This program and the accompanying materials are made available under the
@@ -16,7 +19,10 @@
  */
 package com.algonquincollege.cst8277.models;
 
+import static com.algonquincollege.cst8277.models.AddressPojo.FIND_ADDRESS_BY_ADDR_ID;
+import static com.algonquincollege.cst8277.models.AddressPojo.FIND_ADDRESS_BY_EMP_ID;
 import static com.algonquincollege.cst8277.models.EmployeePojo.ALL_EMPLOYEES_QUERY_NAME;
+import static com.algonquincollege.cst8277.models.EmployeePojo.FIND_EMPLOYEE_BY_EMP_ID;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -50,24 +56,39 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Entity(name = "Employee")
 @Table(name = "EMPLOYEE")
 @AttributeOverride(name = "id", column = @Column(name = "EMP_ID"))
-@NamedQueries(@NamedQuery(name = ALL_EMPLOYEES_QUERY_NAME, query = "select e from Employee e"))
+@NamedQueries({
+    @NamedQuery(name = FIND_EMPLOYEE_BY_EMP_ID, query = "select e from Employee e where e.id = :param1"),
+    @NamedQuery(name = ALL_EMPLOYEES_QUERY_NAME, query = "select e from Employee e")
+})
 public class EmployeePojo extends PojoBase implements Serializable {
     /** explicit set serialVersionUID */
     private static final long serialVersionUID = 1L;
-
+    /** FIND_EMPLOYEE_BY_EMP_ID  */
+    public static final String FIND_EMPLOYEE_BY_EMP_ID = "findEmployeeByEmpId";
+    /** ALL_EMPLOYEES_QUERY_NAME  */
     public static final String ALL_EMPLOYEES_QUERY_NAME = "allEmployees";
-
+    /**  firstName */
     protected String firstName;
+    /** lastName  */
     protected String lastName;
+    /** email  */
     protected String email;
+    /**  title */
     protected String title;
+    /**  salary */
     protected Double salary;
+    /**  address */
     protected AddressPojo address;
+    /** phones  */
     protected List<PhonePojo> phones = new ArrayList<>();
+    /** projects  */
     protected List<ProjectPojo> projects;
+    /**  employeeTasks */
     protected List<EmployeeTask> employeeTasks = new ArrayList<>();
 
-    // JPA requires each @Entity class have a default constructor
+    /**
+     * JPA requires each @Entity class have a default constructor
+     * */
     public EmployeePojo() {
         super();
     }

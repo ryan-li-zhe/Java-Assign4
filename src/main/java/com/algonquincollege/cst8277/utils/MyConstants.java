@@ -2,6 +2,9 @@
  * File: MyConstants.java
  * Course materials (20W) CST 8277
  * @author Mike Norman
+ * 
+ * @Students: Zhe Li, Kevin, Kevin Nghiem & Yan Qu
+ * @Group: A4 30
  *
  */
 package com.algonquincollege.cst8277.utils;
@@ -26,19 +29,35 @@ public List<Project> getProjects({@literal @}PathParam("<b><u>emailId</u></b>") 
  * @author mwnorman
  */
 public interface MyConstants {
-    // constants on Interfaces are 'public static final' by default,
-    // but I leave 'em in case I move a constant to a Class
-    // REST constants
+    /** constants on Interfaces are 'public static final' by default,
+     but I leave 'em in case I move a constant to a Class
+    REST constants
+     * 
+     */
     public static final String SLASH = "/";
+    /** APPLICATION_API_VERSION **/
     public static final String APPLICATION_API_VERSION = SLASH + "api" + SLASH + "v1";
-    // public static final String APPLICATION_CONTEXT_ROOT = SLASH + "rest-employeeSystem";
+    /**
+     *  public static final String APPLICATION_CONTEXT_ROOT = SLASH + "rest-employeeSystem";
+     */
     public static final String EMPLOYEE_RESOURCE_PATH_ID_ELEMENT = "id";
+    /** EMPLOYEE_RESOURCE_PATH_ID_PATH **/
     public static final String EMPLOYEE_RESOURCE_PATH_ID_PATH = "/{" + EMPLOYEE_RESOURCE_PATH_ID_ELEMENT +
         "}";
+    /** EMPLOYEE_RESOURCE_NAME **/
     public static final String EMPLOYEE_RESOURCE_NAME = "employees";
-    // Security constants
+    /** ADDRESS_RESOURCE_NAME **/
+    public static final String ADDRESS_RESOURCE_NAME = "addresses";
+    /** PHONE_RESOURCE_NAME **/
+    public static final String PHONE_RESOURCE_NAME = "phones";
+    /**
+     *  Security constants
+     */
     public static final String USER_ROLE = "USER_ROLE";
+    /** ADMIN_ROLE **/
     public static final String ADMIN_ROLE = "ADMIN_ROLE";
-    // JPA constants
+    /**
+     *  JPA constants
+     */
     public static final String PU_NAME = "assignment4-PU";
 }

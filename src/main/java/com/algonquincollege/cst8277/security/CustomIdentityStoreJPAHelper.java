@@ -3,6 +3,9 @@
  * Course materials (20W) CST 8277
  * @author Mike Norman
  *
+ * @Students: Zhe Li, Kevin, Kevin Nghiem & Yan Qu
+ * @Group: A4 30
+ *
  */
 package com.algonquincollege.cst8277.security;
 
@@ -26,12 +29,18 @@ import com.algonquincollege.cst8277.models.SecurityUser;
 
 @Singleton
 public class CustomIdentityStoreJPAHelper {
+    /** EntityManager */
     @PersistenceContext(name = PU_NAME)
     protected EntityManager em;
+    /** Pbkdf2PasswordHash */
     @Inject
     protected Pbkdf2PasswordHash pbAndjPasswordHash;
     
-
+    /***
+     * findUserByName
+     * @param username
+     * @return
+     */
     public SecurityUser findUserByName(String username) {
         SecurityUser securityUser = null;
         try {
@@ -46,6 +55,11 @@ public class CustomIdentityStoreJPAHelper {
         return securityUser;
     }
 
+    /**
+     * findRoleNamesForUser
+     * @param username
+     * @return
+     */
     public Set<String> findRoleNamesForUser(String username) {
         Set<String> rolenames = new HashSet<>();
         try {
@@ -64,11 +78,19 @@ public class CustomIdentityStoreJPAHelper {
         return rolenames;
     }
 
+    /**
+     * saveSecurityUser
+     * @param user
+     */
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void saveSecurityUser(SecurityUser user) {
         em.persist(user);
     }
 
+    /**
+     * saveSecurityRole
+     * @param role
+     */
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void saveSecurityRole(SecurityRole role) {
         em.persist(role);

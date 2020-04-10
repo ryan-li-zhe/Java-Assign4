@@ -3,6 +3,9 @@
  * Course materials (20W) CST 8277
  * @author Mike Norman
  * (Modified) @date 2020 02
+ * 
+ * @Students: Zhe Li, Kevin, Kevin Nghiem & Yan Qu
+ * @Group: A4 30
  *
  * Copyright (c) 1998, 2009 Oracle. All rights reserved.
  * This program and the accompanying materials are made available under the
@@ -17,11 +20,17 @@
  */
 package com.algonquincollege.cst8277.models;
 
+import static com.algonquincollege.cst8277.models.AddressPojo.FIND_ADDRESS_BY_EMP_ID;
+import static com.algonquincollege.cst8277.models.AddressPojo.FIND_ADDRESS_BY_ADDR_ID;
+import static com.algonquincollege.cst8277.models.AddressPojo.FIND_ALL_ADDRESSES;
+
 import java.io.Serializable;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -32,14 +41,30 @@ import javax.persistence.Table;
 @Entity(name = "Address")
 @Table(name = "ADDRESS")
 @AttributeOverride(name = "id", column = @Column(name = "ADDR_ID"))
+@NamedQueries({
+    @NamedQuery(name = FIND_ADDRESS_BY_EMP_ID, query = "select a from Employee e join e.address a where e.id = :param1"),
+    @NamedQuery(name = FIND_ADDRESS_BY_ADDR_ID, query = "select a from Address a where a.id = :param1"),
+    @NamedQuery(name = FIND_ALL_ADDRESSES, query = "select a from Address a")
+})
 public class AddressPojo extends PojoBase implements Serializable {
     /** explicit set serialVersionUID */
     private static final long serialVersionUID = 1L;
-
+    
+    /** FIND_ADDRESS_BY_EMP_ID  */
+    public static final String FIND_ADDRESS_BY_EMP_ID = "findAddressByEmpId";
+    /**  FIND_ADDRESS_BY_ADDR_ID */
+    public static final String FIND_ADDRESS_BY_ADDR_ID = "findAddressByAddrId";
+    /** FIND_ALL_ADDRESSES  */
+    public static final String FIND_ALL_ADDRESSES = "findAllAddress";
+    /** city  */
     protected String city;
+    /** country  */
     protected String country;
+    /** postal  */
     protected String postal;
+    /**  state */
     protected String state;
+    /** street  */
     protected String street;
 
     /**

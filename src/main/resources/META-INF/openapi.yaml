@@ -13,7 +13,7 @@ servers:
       basePath:
         default: 'api/v1'
       port:
-        default: '8080'
+        default: '9090'
 
 components:
   securitySchemes:
@@ -72,6 +72,9 @@ components:
           format: double
           description: Salary of the employee
           example: 100.0
+        address:
+          type: object
+          $ref: '#/components/schemas/Address'
         # additional for Address/Phone/Project/EmployeeTasks      
 
     EmployeesList:
@@ -82,7 +85,85 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/Employee'
+    
+    AddressList:
+        description: list of Addresses
+        type: object
+        properties:
+          employees:
+            type: array
+            items:
+              $ref: '#/components/schemas/Address'
+    
+    Address:
+        description: (20W) Assignment 4 - address
+        type: object
+        required:
+          - id
+        type: object
+        properties:
+             city:
+                type: string
+                description: city
+                example: 'Ottawa'
+             country:
+                type: string
+                description: country
+                example: 'Canada'
+             postal:
+                type: string
+                description: postal
+                example: 'K2C 3K4'
+             state:
+                type: string
+                description: state
+                example: 'ON'
+             street:
+                type: string
+                description: street
+                example: 'Baseline Rd'
 
+    PhoneList:
+        description: list of phones
+        type: object
+        properties:
+          employees:
+            type: array
+            items:
+              $ref: '#/components/schemas/Phone'
+    
+    Phone:
+        description: (20W) Assignment 4 - phone
+        type: object
+        required:
+          - id
+        type: object
+        properties:
+             areaCode:
+                type: string
+                description: areaCode
+                example: '613'
+             phoneNumber:
+                type: string
+                description: phoneNumber
+                example: '-111-1111'
+             owningEmployee:
+                type: object
+                description: owningEmployee
+                $ref: '#/components/schemas/Employee'                
+             phoneType:
+                type: string
+                description: phoneType
+                example: 'H'
+             mapCoords:
+                type: string
+                description: mapCoords
+             provider:
+                type: string
+                description: provider
+             department:
+                type: string
+                description: department
 security:
   - basicAuth: []
   
@@ -97,7 +178,22 @@ paths:
           content:
             application/json:
              schema: 
-               $ref: '#/components/schemas/EmployeesList'
+               $ref: '#/components/schemas/EmployeesList'               
+    post:
+      description: Let a user post a new employee
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '200':
+          description: Successfully created a new employee
+        '400':
+          $ref: '#/components/responses/NotFound'
+          
+    
   /employees/{id}:
     get:
       summary: Retrieves an employee by its id
@@ -118,4 +214,230 @@ paths:
         401:
           $ref: '#/components/responses/UnauthorizedUserError'
         404:
+          $ref: '#/components/responses/NotFound'   
+          
+    put:     
+      description: "Update an employee"
+      parameters:
+         - name: id
+           in: path
+           description: "employee id that need to be updated"
+           required: true
+           type: integer
+      requestBody:
+           required: true
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/Employee'
+      responses:        
+           401:
+             $ref: '#/components/responses/UnauthorizedUserError'
+           404:
+             $ref: '#/components/responses/NotFound'
+          
+    delete:      
+      description: "Delete employee by ID"
+      parameters:
+         - name: id
+           in: path
+           description: "ID of the employee that needs to be deleted"
+           required: true                   
+           schema:
+              type: integer   
+
+      responses:
+           401:
+             $ref: '#/components/responses/UnauthorizedUserError'
+           404:
+             $ref: '#/components/responses/NotFound'
+          
+  /employees/{id}/address:
+    get:
+      summary: Retrieves an employee's address by its id
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: numeric id of the employee to retrieve
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+        401:
+          $ref: '#/components/responses/UnauthorizedUserError'
+        404:
           $ref: '#/components/responses/NotFound'
+          
+  /addresses:
+    get:
+      responses:
+        401:
+           $ref: '#/components/responses/UnauthorizedAdminError'
+        200:      
+          description: OK
+          content:
+            application/json:
+             schema: 
+               $ref: '#/components/schemas/AddressList'               
+    post:
+      description: Let a user post a new address
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Address'
+      responses:
+        '200':
+          description: Successfully created a new address
+        '400':
+          $ref: '#/components/responses/NotFound'
+          
+          
+  /addresses/{id}:
+    get:
+      summary: Retrieves an address by employee id
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: numeric id of the employee to retrieve
+      responses:
+        200:      
+          description: OK
+          content:
+            application/json:
+             schema: 
+               $ref: '#/components/schemas/Address'  
+        401:
+          $ref: '#/components/responses/UnauthorizedUserError'
+        404:
+          $ref: '#/components/responses/NotFound'
+          
+    put:     
+      description: "Update an address"
+      parameters:
+         - name: id
+           in: path
+           description: "address id that need to be updated"
+           required: true
+           type: integer
+      requestBody:
+           required: true
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/Address'
+      responses:        
+           401:
+             $ref: '#/components/responses/UnauthorizedUserError'
+           404:
+             $ref: '#/components/responses/NotFound'
+          
+    delete:      
+      description: "Delete address by ID"
+      parameters:
+         - name: id
+           in: path
+           description: "ID of the address that needs to be deleted"
+           required: true                   
+           schema:
+              type: integer   
+
+      responses:
+           401:
+             $ref: '#/components/responses/UnauthorizedUserError'
+           404:
+             $ref: '#/components/responses/NotFound'
+             
+  /phones:
+    get:
+      responses:
+        401:
+           $ref: '#/components/responses/UnauthorizedAdminError'
+        200:      
+          description: OK
+          content:
+            application/json:
+             schema: 
+               $ref: '#/components/schemas/PhoneList'               
+    post:
+      description: Let a user post a new phone
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Phone'
+      responses:
+        '200':
+          description: Successfully created a new phone
+        '400':
+          $ref: '#/components/responses/NotFound'
+          
+    
+  /phones/{id}:
+    get:
+      summary: Retrieves an phone by its id
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: numeric id of the phone to retrieve
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Phone'
+        401:
+          $ref: '#/components/responses/UnauthorizedUserError'
+        404:
+          $ref: '#/components/responses/NotFound'   
+          
+    put:     
+      description: "Update an phone"
+      parameters:
+         - name: id
+           in: path
+           description: "employee id that need to be updated"
+           required: true
+           type: integer
+      requestBody:
+           required: true
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/Phone'
+      responses:        
+           401:
+             $ref: '#/components/responses/UnauthorizedUserError'
+           404:
+             $ref: '#/components/responses/NotFound'
+          
+    delete:      
+      description: "Delete employee by ID"
+      parameters:
+         - name: id
+           in: path
+           description: "ID of the phone that needs to be deleted"
+           required: true                   
+           schema:
+              type: integer   
+
+      responses:
+           401:
+             $ref: '#/components/responses/UnauthorizedUserError'
+           404:
+             $ref: '#/components/responses/NotFound'

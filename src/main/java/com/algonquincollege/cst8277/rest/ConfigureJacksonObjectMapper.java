@@ -2,6 +2,9 @@
  * File: ConfigureJacksonObjectMapper.java
  * Course materials (20W) CST 8277
  * @author Mike Norman
+ * 
+ * @Students: Zhe Li, Kevin, Kevin Nghiem & Yan Qu
+ * @Group: A4 30
  *
  */
 package com.algonquincollege.cst8277.rest;
@@ -16,26 +19,34 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 @Provider
 public class ConfigureJacksonObjectMapper implements ContextResolver<ObjectMapper> {
-
+    /** ObjectMapper */
     private final ObjectMapper objectMapper;
 
+    /**
+     * constructor
+     */
     public ConfigureJacksonObjectMapper() {
         this.objectMapper = createObjectMapper();
     }
 
+    /**
+     * getContext
+     */
     @Override
     public ObjectMapper getContext(Class<?> type) {
         return objectMapper;
     }
 
-    //configure JDK 8's new DateTime objects to use proper ISO-8601 timeformat
+    /**
+     * createObjectMapper
+     * @return
+     */
+    // configure JDK 8's new DateTime objects to use proper ISO-8601 timeformat
     protected ObjectMapper createObjectMapper() {
-        ObjectMapper mapper = new ObjectMapper()
-            .registerModule(new JavaTimeModule())
+        ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule())
             .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
             // lenient parsing of JSON - if a field is not known, don't fall to pieces!
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-            ;
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         return mapper;
     }
 }

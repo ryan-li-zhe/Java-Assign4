@@ -5,11 +5,11 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="Dali", date="2020-03-31T10:36:17.755-0400")
+@Generated(value="Dali", date="2020-04-09T21:09:30.834-0400")
 @StaticMetamodel(EmployeeTask.class)
 public class EmployeeTask_ {
-	public static volatile SingularAttribute<EmployeeTask, String> description;
 	public static volatile SingularAttribute<EmployeeTask, LocalDateTime> taskStart;
 	public static volatile SingularAttribute<EmployeeTask, LocalDateTime> taskEndDate;
 	public static volatile SingularAttribute<EmployeeTask, Boolean> taskDone;
+	public static volatile SingularAttribute<EmployeeTask, String> description;
 }

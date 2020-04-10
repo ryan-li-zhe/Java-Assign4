@@ -2,6 +2,9 @@
  * File: CustomIdentityStore.java
  * Course materials (20W) CST 8277
  * @author Mike Norman
+ * 
+ * @Students: Zhe Li, Kevin, Kevin Nghiem & Yan Qu
+ * @Group: A4 30
  *
  */
 package com.algonquincollege.cst8277.security;
@@ -30,12 +33,17 @@ import com.algonquincollege.cst8277.models.SecurityUser;
 @Default
 public class CustomIdentityStore implements IdentityStore {
 
+    /** CustomIdentityStoreJPAHelper */
     @Inject
     protected CustomIdentityStoreJPAHelper jpaHelper;
 
+    /** Pbkdf2PasswordHash  */
     @Inject
     protected Pbkdf2PasswordHash pbAndjPasswordHash;
 
+    /****
+     * validate
+     */
     @Override
     public CredentialValidationResult validate(Credential credential) {
 
@@ -71,6 +79,11 @@ public class CustomIdentityStore implements IdentityStore {
         return result;
     }
 
+    /**
+     * getRolesNamesForSecurityRoles
+     * @param roles
+     * @return
+     */
     protected Set<String> getRolesNamesForSecurityRoles(Set<SecurityRole> roles) {
         Set<String> roleNames = emptySet();
         if (!roles.isEmpty()) {

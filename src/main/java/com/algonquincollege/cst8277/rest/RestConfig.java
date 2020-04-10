@@ -4,6 +4,9 @@
  * @author Mike Norman
  * @date 2020 03
  *
+ * @Students: Zhe Li, Kevin, Kevin Nghiem & Yan Qu
+ * @Group: A4 30
+ * 
  */
 package com.algonquincollege.cst8277.rest;
 
@@ -23,7 +26,7 @@ import javax.ws.rs.core.Application;
 @DeclareRoles({USER_ROLE, ADMIN_ROLE})
 public class RestConfig extends Application {
 
-    /*
+    /**
      * Without the following 'feature', the default Serialization/Deserialization for Jakarta EE 8
      * is JSON-B via a project called 'Yasson'.
      * 

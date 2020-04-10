@@ -2,6 +2,9 @@
  * File: SecurityUser.java
  * Course materials (20W) CST 8277
  * @author Mike Norman
+ * 
+ * @Students: Zhe Li, Kevin, Kevin Nghiem & Yan Qu
+ * @Group: A4 30
  *
  */
 package com.algonquincollege.cst8277.models;
@@ -30,16 +33,28 @@ import javax.persistence.Table;
 public class SecurityUser implements Serializable, Principal {
     /** explicit set serialVersionUID */
     private static final long serialVersionUID = 1L;
+    /***  id */
     protected int id;
+    /*** username  */
     protected String username;
+    /***  pwHash */
     protected String pwHash;
+    /*** roles  */
     protected Set<SecurityRole> roles;
+    /***  employee */
     protected EmployeePojo employee;
 
+    /**
+     * constructor
+     */
     public SecurityUser() {
         super();
     }
 
+    /**
+     * 
+     * @return
+     */
     @Column(name = "USER_ID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,26 +62,51 @@ public class SecurityUser implements Serializable, Principal {
         return id;
     }
 
+    /**
+     * 
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * getUsername
+     * @return
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * setUsername
+     * 
+     * @param username
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
+    /**
+     * getPwHash
+     * @return
+     */
     public String getPwHash() {
         return pwHash;
     }
 
+    /**
+     * setPwHash
+     * @param pwHash
+     */
     public void setPwHash(String pwHash) {
         this.pwHash = pwHash;
     }
 
+    /**
+     * getRoles
+     * @return
+     */
     @ManyToMany(targetEntity = SecurityRole.class, cascade = CascadeType.PERSIST)
     @JoinTable(name = "SECURITY_USER_SECURITY_ROLE",
         joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID"),
@@ -75,26 +115,45 @@ public class SecurityUser implements Serializable, Principal {
         return roles;
     }
 
+    /**
+     * setRoles
+     * @param roles
+     */
     public void setRoles(Set<SecurityRole> roles) {
         this.roles = roles;
     }
 
+    /**
+     * getEmployee
+     * @return
+     */
     @OneToOne
     @JoinColumn(name="EMP_ID")
     public EmployeePojo getEmployee() {
         return employee;
     }
 
+    /**
+     * setEmployee
+     * 
+     * @param employee
+     */
     public void setEmployee(EmployeePojo employee) {
         this.employee = employee;
     }
 
+    /**
+     * getName
+     */
     // Principal
     @Override
     public String getName() {
         return getUsername();
     }
 
+    /**
+     * hashCode
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -103,6 +162,9 @@ public class SecurityUser implements Serializable, Principal {
         return result;
     }
 
+    /**
+     * equals
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

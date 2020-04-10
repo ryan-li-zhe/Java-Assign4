@@ -3,6 +3,9 @@
  * Course materials (20W) CST 8277
  * @author Mike Norman
  * @date 2020 02
+ * 
+ * @Students: Zhe Li, Kevin, Kevin Nghiem & Yan Qu
+ * @Group: A4 30
  *
  */
 package com.algonquincollege.cst8277.models;
@@ -18,6 +21,7 @@ import javax.persistence.Entity;
 public class WorkPhone extends PhonePojo implements Serializable {
     /** explicit set serialVersionUID */
     private static final long serialVersionUID = 1L;
+    /** department  */
     protected String department;
 
     /**

@@ -3,6 +3,9 @@
  * Course materials (20W) CST 8277
  *
  * @author (original) Mike Norman
+ * 
+ * @Students: Zhe Li, Kevin, Kevin Nghiem & Yan Qu
+ * @Group: A4 30
  *
  */
 package com.algonquincollege.cst8277.models;

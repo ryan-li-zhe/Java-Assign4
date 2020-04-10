@@ -3,6 +3,9 @@
  * Course materials (20W) CST 8277
  * @author Mike Norman
  * (Modified) @date 2020 02
+ * 
+ * @Students: Zhe Li, Kevin, Kevin Nghiem & Yan Qu
+ * @Group: A4 30
  *
  * Copyright (c) 1998, 2009 Oracle. All rights reserved.
  * This program and the accompanying materials are made available under the
@@ -18,7 +21,12 @@ package com.algonquincollege.cst8277.models;
 
 import java.io.Serializable;
 
+import static com.algonquincollege.cst8277.models.PhonePojo.FIND_PHONE_BY_PHONE_ID;
+import static com.algonquincollege.cst8277.models.PhonePojo.FIND_PHONE_BY_EMP_ID;
+import static com.algonquincollege.cst8277.models.PhonePojo.FIND_ALL_PHONES;
+
 import javax.persistence.AttributeOverride;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -27,6 +35,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -52,15 +62,32 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @AttributeOverride(name = "id", column = @Column(name = "PHONE_ID"))
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "PHONE_TYPE", length = 1)
+@NamedQueries({
+    @NamedQuery(name = FIND_PHONE_BY_EMP_ID, query = "select p from Employee e join e.phones p where e.id = :param1"),
+    @NamedQuery(name = FIND_PHONE_BY_PHONE_ID, query = "select p from Phone p where p.id = :param1"),
+    @NamedQuery(name = FIND_ALL_PHONES, query = "select p from Phone p")
+})
 public abstract class PhonePojo extends PojoBase implements Serializable {
     /** explicit set serialVersionUID */
     private static final long serialVersionUID = 1L;
+    /*** FIND_PHONE_BY_EMP_ID */
+    public static final String FIND_PHONE_BY_EMP_ID = "findPhoneByEmpId";
+    /*** FIND_PHONE_BY_PHONE_ID */
+    public static final String FIND_PHONE_BY_PHONE_ID = "findPhoneByPhonerId";
+    /*** FIND_ALL_PHONES */
+    public static final String FIND_ALL_PHONES = "findAllPhones";
+    /*** areaCode */
     protected String areaCode;
+    /*** phoneNumber */
     protected String phoneNumber;
+    /*** owningEmployee */
     protected EmployeePojo owningEmployee;
+    /*** phoneType  */
     protected String phoneType;
 
-    // JPA requires each @Entity class have a default constructor
+    /**
+     *  JPA requires each @Entity class have a default constructor
+     */
     public PhonePojo() {
         super();
     }
@@ -117,7 +144,7 @@ public abstract class PhonePojo extends PojoBase implements Serializable {
      * @return the owningEmployee
      */
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "OWNING_EMP_ID") // Db details: FK column
     public EmployeePojo getOwningEmployee() {
         return owningEmployee;

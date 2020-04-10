@@ -2,6 +2,9 @@
  * File: MyAuthenticationMechanism.java
  * Course materials (20W) CST 8277
  * @author Mike Norman
+ * 
+ * @Students: Zhe Li, Kevin, Kevin Nghiem & Yan Qu
+ * @Group: A4 30
  *
  */
 package com.algonquincollege.cst8277.security;
@@ -27,9 +30,13 @@ import javax.ws.rs.core.HttpHeaders;
 @ApplicationScoped
 public class CustomAuthenticationMechanism implements HttpAuthenticationMechanism {
 
+    /** IdentityStore */
     @Inject
     private IdentityStore identityStore;
 
+    /**
+     * validateRequest
+     */
     @Override
     public AuthenticationStatus validateRequest(HttpServletRequest request, HttpServletResponse response, HttpMessageContext httpMessageContext) throws AuthenticationException {
 

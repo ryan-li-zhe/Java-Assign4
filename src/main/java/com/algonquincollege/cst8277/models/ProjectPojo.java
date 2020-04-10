@@ -3,6 +3,9 @@
  * Course materials (20W) CST 8277
  * @author Mike Norman
  * (Modified) @date 2020 02
+ * 
+ * @Students: Zhe Li, Kevin, Kevin Nghiem & Yan Qu
+ * @Group: A4 30
  *
  * Copyright (c) 1998, 2009 Oracle. All rights reserved.
  * This program and the accompanying materials are made available under the
@@ -34,11 +37,16 @@ import javax.persistence.Table;
 public class ProjectPojo extends PojoBase implements Serializable {
     /** explicit set serialVersionUID */
     private static final long serialVersionUID = 1L;
+    /** description  */
     protected String description;
+    /**  name */
     protected String name;
+    /**  employees */
     protected List<EmployeePojo> employees;
     
-    // JPA requires each @Entity class have a default constructor
+    /**
+     *  JPA requires each @Entity class have a default constructor
+     */
     public ProjectPojo() {
     }
 

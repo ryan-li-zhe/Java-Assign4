@@ -8,7 +8,7 @@
   <artifactId>rest-employeeSystem</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
-  <name>040913212_Assignment4_ZheLi</name>
+  <name>20Assignment4_makingProgress</name>
   <description>Assignment 4 REST Employee System</description>
 
   <!-- why is everything a property? Because hard-coded values become part 
@@ -129,6 +129,12 @@
       <artifactId>slf4j-api</artifactId>
       <version>${slf4j.version}</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>jul-to-slf4j</artifactId>
+        <version>${slf4j.version}</version>
+        <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>

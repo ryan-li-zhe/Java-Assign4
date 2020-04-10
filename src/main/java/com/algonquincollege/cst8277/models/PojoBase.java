@@ -2,6 +2,9 @@
  * File: PojoBase.java
  * Course materials (20W) CST 8277
  * @author Mike Norman
+ * 
+ * @Students: Zhe Li, Kevin, Kevin Nghiem & Yan Qu
+ * @Group: A4 30
  *
  * @date 2020 02
  */
@@ -28,15 +31,21 @@ import javax.persistence.Version;
 @Access(AccessType.PROPERTY)
 @EntityListeners(PojoListener.class)
 public abstract class PojoBase implements Serializable {
+    /** serialVersionUID */
     private static final long serialVersionUID = 1L;
-
+    /** id */
     protected int id;
+    /** version */
     protected int version;
     /** cretaedDate */
     protected LocalDateTime cretaedDate;
     /** updatedDate */
     protected LocalDateTime updatedDate;
 
+    /**
+     * getCretaedDate
+     * @return
+     */
     @Column(name = "CREATED_DATE")
     public LocalDateTime getCretaedDate() {
         return cretaedDate;
@@ -49,6 +58,10 @@ public abstract class PojoBase implements Serializable {
         this.cretaedDate = createdDate;
     }
 
+    /**
+     * getUpdatedDate
+     * @return
+     */
     @Column(name = "UPDATED_DATE")
     public LocalDateTime getUpdatedDate() {
         return updatedDate;
@@ -61,27 +74,47 @@ public abstract class PojoBase implements Serializable {
         this.updatedDate = updatedDate;
     }
 
+    /**
+     * getId
+     * 
+     * @return
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
 
+    /**
+     * setId
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * getVersion
+     * @return
+     */
     @Version
     public int getVersion() {
         return version;
     }
 
+    /**
+     * setVersion
+     * @param version
+     */
     public void setVersion(int version) {
         this.version = version;
     }
 
     // Strictly speaking, JPA does not require hashcode() and equals(),
     // but it is a good idea to have one that tests using the PK (@Id) field
+    /**
+     * hashCode
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -90,6 +123,9 @@ public abstract class PojoBase implements Serializable {
         return result;
     }
 
+    /**
+     * equals
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

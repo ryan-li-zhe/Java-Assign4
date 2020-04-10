@@ -3,6 +3,9 @@
  * Course materials (20W) CST 8277
  * @author Mike Norman
  * @date 2020 02
+ * 
+ * @Students: Zhe Li, Kevin, Kevin Nghiem & Yan Qu
+ * @Group: A4 30
  *
  */
 package com.algonquincollege.cst8277.models;
@@ -14,10 +17,13 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class EmployeeTask {
-    
+    /**  description */
     protected String description;
+    /** taskStart  */
     protected LocalDateTime taskStart;
+    /** taskEndDate  */
     protected LocalDateTime taskEndDate;
+    /** taskDone  */
     protected boolean taskDone;
 
     /***
@@ -34,6 +40,10 @@ public class EmployeeTask {
         return description;
     }
 
+    /**
+     * setDescription
+     * @param description
+     */
     public void setDescription(String description) {
         this.description = description;
     }
